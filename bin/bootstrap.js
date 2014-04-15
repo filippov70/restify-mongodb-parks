@@ -4,4 +4,4 @@ var db = require('./db.js')
 //db.flushDB();
 
 // Initialize the DB
-db.initDB();
+//db.initDB();

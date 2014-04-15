@@ -33,17 +33,17 @@
   <div id="map"></div>
   <script src="//cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
   <script>
-    var map = L.map('map').setView([37.8, -122.3], 10);
+    var map = L.map('map').setView([56, 84], 6);
     var markerLayerGroup = L.layerGroup().addTo(map);
-    L.tileLayer('http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png', {
+    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
-      minZoom: 5,
-      attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
+      minZoom: 3,
+      attribution: 'Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
     }).addTo(map);
 
     function getPins(e){
       bounds = map.getBounds();
-      url = "parks/within?lat1=" + bounds.getSouthWest().lat + "&lon1=" + bounds.getSouthWest().lng + "&lat2=" + bounds.getNorthEast().lat + "&lon2=" + bounds.getNorthEast().lng;
+      url = "points10m/within?lat1=" + bounds.getSouthWest().lat + "&lon1=" + bounds.getSouthWest().lng + "&lat2=" + bounds.getNorthEast().lat + "&lon2=" + bounds.getNorthEast().lng;
       $.get(url, pinTheMap, "json")
     }
 
@@ -54,10 +54,10 @@
       //add the new pins
       var markerArray = new Array(data.length)
       for (var i = 0; i < data.length; i++){
-        park = data[i];
-        long = park.pos[0];
-        lat  = park.pos[1];
-        markerArray[i] = L.marker([lat, long]).bindPopup(park.Name);
+        point = data[i];
+        long = point.pos[0];
+        lat  = point.pos[1];
+        //markerArray[i] = L.marker([lat, long]).bindPopup(point.Name);
       }
  
       markerLayerGroup = L.layerGroup(markerArray).addTo(map);

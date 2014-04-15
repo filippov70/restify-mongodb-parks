@@ -7,7 +7,7 @@ var db = mongojs(db_config + collection_name, [collection_name] );
 
 function init_db(){
   var points = require(__dirname + '/../parkcoord.json');
-  db[collection_name].ensureIndex({'pos':"2d"}, function(err, doc){
+  db[collection_name].ensureIndex({'pos':"2dsphere"}, function(err, doc){
     if(err){
       console.log(err);
       return db.close();
