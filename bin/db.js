@@ -3,7 +3,7 @@ var config      = require('config'),
 
 var db_config   = config.db_config,
     collection_name = config.collection_name;
-var db = mongojs(db_config + collection_name, [collection_name] );
+var db = mongojs(db_config, [collection_name] );
 
 function init_db(){
   var points = require(__dirname + '/../parkcoord.json');
@@ -45,7 +45,7 @@ function select_box(req, res, next){
       lon1 = Number(query.lon1),
       lat2 = Number(query.lat2),
       lon2 = Number(query.lon2);
-  var limit = (typeof(query.limit) !== "undefined") ? query.limit : 400000;
+  var limit = (typeof(query.limit) !== "undefined") ? query.limit : 1000000;
   if(!(Number(query.lat1) 
     && Number(query.lon1) 
     && Number(query.lat2) 
@@ -55,12 +55,14 @@ function select_box(req, res, next){
     res.send(500, {http_status:400,error_msg: "this endpoint requires two pair of lat, long coordinates: lat1 lon1 lat2 lon2\na query 'limit' parameter can be optionally specified as well."});
     return console.error('could not connect to the database', err);
   }
+    console.log(db);
   db[collection_name].find( {'coordinates' : {'$geoWithin': { '$box' : [[lon1,lat1],[lon2,lat2]]}}}).limit(limit).toArray(function(err,rows){
     if(err) {
       res.send(500, {http_status:500,error_msg: err})
       return console.error('error running query', err);
     }
     res.send(rows);
+      console.log(rows.count);
     return rows;
   });
 };
@@ -72,6 +74,7 @@ function select_all(req, res, next){
       return console.error('error running query', err);
     }
     res.send(rows);
+      console.log(rows.count);
     return rows;
   });
 };
