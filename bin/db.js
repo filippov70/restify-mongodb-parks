@@ -41,10 +41,10 @@ function flush_db(){
 function select_box(req, res, next){
   //clean these variables:
   var query = req.query;
-  var lat1 = Number(query.lat1),
-      lon1 = Number(query.lon1),
-      lat2 = Number(query.lat2),
-      lon2 = Number(query.lon2);
+  var lat1 = Number(query.lat1).toFixed(13),
+      lon1 = Number(query.lon1).toFixed(13),
+      lat2 = Number(query.lat2).toFixed(13),
+      lon2 = Number(query.lon2).toFixed(13);
   var limit = (typeof(query.limit) !== "undefined") ? query.limit : 400000;
   if(!(Number(query.lat1) 
     && Number(query.lon1) 
@@ -61,6 +61,7 @@ function select_box(req, res, next){
       return console.error('error running query', err);
     }
     res.send(rows);
+    console.log(rows.count);
     return rows;
   });
 };
