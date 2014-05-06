@@ -57,7 +57,7 @@
         point = data[i];
         long = point.pos[0];
         lat  = point.pos[1];
-        //markerArray[i] = L.marker([lat, long]).bindPopup(point.Name);
+        markerArray[i] = L.marker([lat, long]).bindPopup(point.Name);
       }
  
       markerLayerGroup = L.layerGroup(markerArray).addTo(map);
