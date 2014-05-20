@@ -5,39 +5,6 @@ var db_config   = config.db_config,
     collection_name = config.collection_name;
 var db = mongojs(db_config + collection_name, [collection_name] );
 
-function init_db(){
-  var points = require(__dirname + '/../parkcoord.json');
-  db[collection_name].ensureIndex({'pos':"2dsphere"}, function(err, doc){
-    if(err){
-      console.log(err);
-      return db.close();
-    }else{
-      console.log("index added on 'pos'");
-      db[collection_name].count(function(errr, count){
-        if(errr){
-          console.log(errr);
-        }else if(count > 0){
-          console.log("data already exists - bypassing db initialization work...");
-        }else{
-          console.log("Importing map points...");
-          db[collection_name].insert(points);
-        }
-        return db.close();
-      });
-    }
-  });
-} 
-
-function flush_db(){
-  console.log("Dropping the DB...");
-  db[collection_name].drop(function(err){
-    if(err){
-      console.log(err);
-    }
-    return db.close();
-  });
-} 
-
 function select_box(req, res, next){
   //clean these variables:
   var query = req.query;
@@ -98,7 +65,5 @@ function select_all(req, res, next){
 
 module.exports = exports = {
   selectAll: select_all,
-  selectBox: select_box,
-  flushDB:   flush_db,
-  initDB:    init_db
+  selectBox: select_box
 };

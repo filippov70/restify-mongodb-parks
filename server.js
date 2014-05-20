@@ -2,6 +2,7 @@ var config      = require('config'),
     restify     = require('restify'),
     fs          = require('fs'),
     db          = require('./bin/db.js')
+var db_pg = require('./bin/db_postgis.js')
 
 var app         = restify.createServer()
 
@@ -12,6 +13,7 @@ app.use(restify.fullResponse())
 // Routes
 app.get('/points10m/within', db.selectBox);
 app.get('/points10m', db.selectAll);
+app.get('/pg', db_pg.selectBox);
 app.get('/status', function (req, res, next)
 {
   res.send("{status: 'ok'}");
