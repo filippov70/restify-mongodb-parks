@@ -32,7 +32,7 @@ function select_box(req, res, next){
 //        console.log(doc);
 //    });
 
-  db[collection_name].find( {'geometry.coordinates' : {'$geoWithin': { '$box' : [[lon1,lat1],[lon2,lat2]]}}}).limit(limit).toArray(function(err, rows){
+  db[collection_name].find( {'geometry.coordinates' : {'$geoWithin': { '$box' : [[lon1,lat1],[lon2,lat2]]}}}).toArray(function(err, rows){
     if(err) {
       res.send(500, {http_status:500,error_msg: err})
       return console.error('error running query', err);

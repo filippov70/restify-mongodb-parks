@@ -1,4 +1,4 @@
-SELECT ST_AsGeoJSON(geom)
+SELECT ST_AsGeoJSON(geom) as shape
   FROM point1
   where ST_Within(geom,
   ST_GeomFromText('POLYGON(

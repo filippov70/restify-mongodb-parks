@@ -27,7 +27,7 @@ function select_box(req, res, next){
         if(err) {
             return console.error('error fetching client from pool', err);
         }
-        var query = 'SELECT ST_AsGeoJSON(geom) FROM '+ config.table_name +' WHERE ' +
+        var query = 'SELECT ST_AsGeoJSON(geom) as shape FROM '+ config.table_name +' WHERE ' +
         'ST_Within(geom,' +
         'ST_GeomFromText(\'POLYGON((' + lat1 + ' ' + lon1 + ', ' +
         lat2 + ' ' + lon1 + ', ' +
