@@ -34,7 +34,7 @@ function select_box(req, res, next){
         lat2 + ' ' + lon2 + ', ' +
         lat1 + ' ' + lon2 + ', ' +
         lat1 + ' ' + lon1 + '))\',' +
-        '4326));';
+        '4326)) LIMIT 2000;';
         client.query(query, function(err, result) {
             //call `done()` to release the client back to the pool
             done();
