@@ -16,7 +16,7 @@ function select_box(req, res, next){
         lon1 = parseFloat(query.lon1),
         lat2 = parseFloat(query.lat2),
         lon2 = parseFloat(query.lon2);
-  var limit = (typeof(query.limit) !== "undefined") ? query.limit : 4000;
+  var limit = (typeof(query.limit) !== "undefined") ? query.limit : 2000;
   if(!(Number(query.lat1) 
     && Number(query.lon1) 
     && Number(query.lat2) 
@@ -32,7 +32,7 @@ function select_box(req, res, next){
 //        console.log(doc);
 //    });
 
-  db[collection_name].find( {'geometry.coordinates' : {'$geoWithin': { '$box' : [[lon1,lat1],[lon2,lat2]]}}}).toArray(function(err, rows){
+  db[collection_name].find( {'geometry.coordinates' : {'$geoWithin': { '$box' : [[lon1,lat1],[lon2,lat2]]}}}).limit(limit).toArray(function(err, rows){
     if(err) {
       res.send(500, {http_status:500,error_msg: err})
       return console.error('error running query', err);
