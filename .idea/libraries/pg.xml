@@ -2,9 +2,6 @@
   <library name="pg" type="javaScript">
     <properties>
       <option name="frameworkName" value="node_modules" />
-      <sourceFilesUrls>
-        <item url="file://$PROJECT_DIR$/node_modules/pg" />
-      </sourceFilesUrls>
     </properties>
     <CLASSES>
       <root url="file://$PROJECT_DIR$/node_modules/pg" />

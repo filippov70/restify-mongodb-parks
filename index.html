@@ -1,7 +1,8 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
-  <title>Map of Parks and Historic Sites</title>
+    <meta charset="utf-8">
+  <title>10 миллионов точек</title>
     <link rel="stylesheet" href="//cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" />
     <link rel="stylesheet" href="css/ribbon.css" />
   <!--[if lte IE 8]>
@@ -16,7 +17,7 @@
     }
     html, body, #map {
         height: 100%;
-        font-family: 'Milonga', cursive;
+        font-family: 'Calibri', cursive;
     }
     .leaflet-container .leaflet-control-zoom {
         margin-left: 13px;
@@ -44,36 +45,31 @@
     function getPins(e){
       bounds = map.getBounds();
       //console.log(map.getZoom());
-       url = "points10m/within?lat1="+ bounds.getSouthWest().lat + "&lon1=" + bounds.getSouthWest().lng + "&lat2=" + bounds.getNorthEast().lat + "&lon2=" + bounds.getNorthEast().lng;
-      //url = "pg?lat1=" + bounds.getSouthWest().lat + "&lon1=" + bounds.getSouthWest().lng + "&lat2=" + bounds.getNorthEast().lat + "&lon2=" + bounds.getNorthEast().lng;
+      // url = "points10m/within?lat1="+ bounds.getSouthWest().lat + "&lon1=" + bounds.getSouthWest().lng + "&lat2=" + bounds.getNorthEast().lat + "&lon2=" + bounds.getNorthEast().lng;
+      url = "pg?lat1=" + bounds.getSouthWest().lat + "&lon1=" + bounds.getSouthWest().lng + "&lat2=" + bounds.getNorthEast().lat + "&lon2=" + bounds.getNorthEast().lng;
       $.get(url, pinTheMap, "json")
     }
 
     function pinTheMap(data){
       //clear the current pins
       map.removeLayer(markerLayerGroup);
- 
       //add the new pins
       var markerArray = new Array(data.length)
         console.log('points count = ' + data.length);
       for (var i = 0; i < data.length; i++){
-        point = data[i];
-        long = point.geometry.coordinates[0];
-        lat  = point.geometry.coordinates[1];
-//          var point = JSON.parse(data[i].shape);
-//          var long = point.coordinates[1];
-//          var lat  = point.coordinates[0];
+//        point = data[i];
+//        long = point.geometry.coordinates[0];
+//        lat  = point.geometry.coordinates[1];
+          var point = JSON.parse(data[i].shape);
+          var long = point.coordinates[1];
+          var lat  = point.coordinates[0];
           markerArray[i] = L.marker([lat, long]).bindPopup(point.type);
       }
- 
       markerLayerGroup = L.layerGroup(markerArray).addTo(map);
     }
-
     map.on('dragend', getPins);
     map.on('zoomend', getPins);
     map.whenReady(getPins)
-
   </script>
-  <!--<span id="fossribbon"><a href="https://openshift.redhat.com/app/console/application_types/custom?name=parks&initial_git_url=https%3A%2F%2Fgithub.com/ryanj/restify-mongodb-parks.git&cartridges[]=nodejs-0.10&cartridges[]=mongodb-2.2">Run me on OpenShift</a></span>-->
 </body>
 </html>
